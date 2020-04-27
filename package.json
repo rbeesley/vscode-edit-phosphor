@@ -1,22 +1,27 @@
 {
-    "name": "snake-trail",
-    "description": "Shows a snake trail for your edited text",
-    "version": "0.6.0",
-    "publisher": "richie5um2",
-    "author": "Rich Somerfield",
+    "name": "edit-phosphor",
+    "description": "Shows a phosphor afterglow for edited text",
+    "version": "0.7.0",
+    "publisher": "rbeesley",
+    "author": "Ryan Beesley (https://github.com/rbeesley)",
+    "contributors": [
+        "Rich Somerfield (https://github.com/richie5um)",
+        "Phil Hindle (https://github.com/phindle)",
+        "Ryan Beesley (https://github.com/rbeesley)"
+    ],
     "license": "MIT",
-    "displayName": "Snake Trail",
+    "displayName": "Edit Phosphor",
     "icon": "resources/icon.svg",
-    "homepage": "https://github.com/richie5um/vscode-snake-trail",
+    "homepage": "https://github.com/rbeesley/vscode-edit-phosphor",
     "repository": {
         "type": "git",
-        "url": "https://github.com/richie5um/vscode-snake-trail"
+        "url": "https://github.com/rbeesley/vscode-edit-phosphor"
     },
     "bugs": {
-        "url": "https://github.com/richie5um/vscode-snake-trail/issues"
+        "url": "https://github.com/rbeesley/vscode-edit-phosphor/issues"
     },
     "engines": {
-        "vscode": "0.10.x"
+        "vscode": "^1.34.0"
     },
     "categories": [
         "Other"
@@ -26,75 +31,116 @@
     ],
     "main": "./out/extension",
     "scripts": {
-        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
-        "vscode": "0.10.x",
-        "typescript": "^1.6.2"
+        "@types/node": "^13.13.4",
+        "@types/vscode": "^1.44.0",
+        "tslint": "^5.19.0",
+        "typescript": "^3.8.3",
+        "vscode-test": "^1.3.0"
     },
     "dependencies": {
+        "@types/lodash": "^4.14.150",
         "lodash": "^4.15.0"
     },
     "contributes": {
         "commands": [
             {
-                "command": "snakeTrail.enable",
-                "title": "SnakeTrail Enable"
+                "command": "editPhosphor.enable",
+                "title": "Edit Phosphor Enable"
             },
             {
-                "command": "snakeTrail.disable",
-                "title": "SnakeTrail Disable"
-            },
-            {
-                "command": "snakeTrail.refresh",
-                "title": "SnakeTrail Refresh (re-read configuration)"
+                "command": "editPhosphor.disable",
+                "title": "Edit Phosphor Disable"
             }
         ],
         "configuration": {
             "type": "object",
             "properties": {
-                "snakeTrail.enabled": {
+                "editPhosphor.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Enable/disable SnakeTrail"
+                    "description": "Enable/disable Edit Phosphor extension"
                 },
-                "snakeTrail.color": {
+                "editPhosphor.color": {
                     "type": "string",
                     "default": "0,255,0",
-                    "description": "Set the color of the snake trail (i.e. in R,G,B format)"
+                    "description": "Set the color of the phosphor trail (i.e. in R,G,B format)"
                 },
-                "snakeTrail.colorLight": {
+                "editPhosphor.colorLight": {
                     "type": "string",
                     "default": null,
-                    "description": "Set the color of the snake trail for light themes, overrides snakeColor"
+                    "description": "Set the color of the phosphor trail for light themes, overrides phosphor color"
                 },
-                "snakeTrail.colorDark": {
+                "editPhosphor.colorDark": {
                     "type": "string",
                     "default": null,
-                    "description": "Set the color of the snake trail for dark themes, overrides snakeColor"
+                    "description": "Set the color of the phosphor trail for dark themes, overrides phosphor color"
                 },
-                "snakeTrail.fadeMS": {
+                "editPhosphor.smoothstep": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use smoothstep for fadeout rate"
+                },
+                "editPhosphor.smoothSteps": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "The number of smoothstep steps to show"
+                },
+                "editPhosphor.smoothstepXStart": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "X_Start"
+                },
+                "editPhosphor.smoothstepYStart": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Y_Start"
+                },
+                "editPhosphor.smoothstepXEnd": {
+                    "type": "number",
+                    "default": -1,
+                    "description": "X_End"
+                },
+                "editPhosphor.smoothstepYEnd": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Y_End"
+                },
+                "editPhosphor.smoothstepYMax": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Y_Max"
+                },
+                "editPhosphor.smoothstepYMin": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Y_Min"
+                },
+                "editPhosphor.fadeMS": {
                     "type": "number",
                     "default": 100,
                     "description": "Set the fade out rate of the trail (in milliseconds)"
                 },
-                "snakeTrail.fadeStart": {
+                "editPhosphor.fadeStart": {
                     "type": "number",
-                    "default": 0.7,
-                    "description": "Set the fade start opacity (i.e. 0.7)"
+                    "default": 0.5,
+                    "description": "Set the fade start opacity (i.e. 0.3)"
                 },
-                "snakeTrail.fadeEnd": {
+                "editPhosphor.fadeEnd": {
                     "type": "number",
-                    "default": 0,
+                    "default": 0.0,
                     "description": "Set the fade end opacity (i.e. 0.0)"
                 },
-                "snakeTrail.fadeStep": {
+                "editPhosphor.fadeStep": {
                     "type": "number",
                     "default": 0.1,
                     "description": "Set the fade step (i.e. 0.1)"
                 },
-                "snakeTrail.redrawFrequency": {
+                "editPhosphor.redrawFrequency": {
                     "type": "number",
                     "default": 10,
                     "description": "Frequency that the redraw is performed - when trails are active"
