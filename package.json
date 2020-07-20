@@ -44,7 +44,7 @@
     },
     "dependencies": {
         "@types/lodash": "^4.14.150",
-        "lodash": "^4.15.0"
+        "lodash": "^4.17.19"
     },
     "contributes": {
         "commands": [
